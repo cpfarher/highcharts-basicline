@@ -1,0 +1,242 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<script src="../jquery/dist/jquery.js"></script>
+<script src="../highcharts/adapters/standalone-framework.js"></script>
+<script src="../highcharts/highcharts.js"></script>
+
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <highcharts-gauge></highcharts-gauge>
+
+@element highcharts-gauge
+@blurb Polymer Element wrapper for highcharts.js chart with type 'baseline'
+@status alpha
+@homepage http://polymerlabs.github.io/highcharts-gauge
+-->
+<polymer-element name="highcharts-gauge">
+
+<template>
+    <link rel="stylesheet" href="highcharts-gauge.css"/>
+    <div id="container" style="width:{{width}}; height:{{height}};"></div>
+    <core-ajax id="ajax" url="{{data}}" handleAs="json" on-core-response="{{externalDataLoad}}">
+    </core-ajax>
+</template>
+
+<script>
+Highcharts.Renderer.prototype.symbols.line = function (x, y, width, height) {
+    return ['M', x, y, 'L', x + height, y];
+};
+Polymer({
+    /**
+     * The `author` attribute sets an initial author
+     *
+     * @attribute author
+     * @type string
+     * @default 'info@bys-control.com.ar (based on Alexander Vishnyakov highcharts-basicline)'
+     */
+    author: 'info@bys-control.com.ar (based on Alexander Vishnyakov)',
+
+    data: null,
+
+    series: null,
+
+    xcategories: null,
+
+    charttitle: '',
+
+    ytitle: '',
+
+    subtitle: '',
+
+    barColor: '',
+
+    tooltip: null,
+
+    legend: null,
+
+    yplotlines: null,
+
+    width: '',
+
+    height: '',
+
+    orientation: '',
+
+    plotBackgroundColor: '',
+
+    barColor: '',
+
+    publish: {
+        width: '', //ancho del gráfico
+        height: '', // alto del grafico
+        data: '', //datos a representar data='[{ "data": [ 60.0] }]'
+        xcategories: '', //categorías del eje x ["categoría"]
+        charttitle: '', // titulo del grafico
+        subtitle: '', //subtitulo
+        ytitle: '', //label eje y
+        tooltip: '', //toltip text: ej. tooltip='{ "valueSuffix": "°C" }'
+        legend: '', //boolean para indicar si se quiere con o si leyenda
+        orientation: '', // orientacion 'vertical' u 'horizontal'
+        plotBackgroundColor: '', //color de fondo del gauge
+        barColor: '' // color de la barra del gague
+    },
+
+    ready: function () {
+
+    },
+
+    observe: {
+        data: 'loadData'
+    },
+
+    created: function () {
+        this.data = [];
+
+        this.series = [
+            {
+                borderColor: null,
+                borderRadius: 0,
+                pointWidth: 50,
+                data: [0.0]
+            },
+            {
+                type: 'scatter',
+                data: [
+                    {x: 0, y: 50, lineColor: 'red'}
+                ]
+            }
+        ];
+
+        this.xcategories = [];
+        this.charttitle = '';
+        this.ytitle = '';
+        this.xtitle = '';
+        this.subtitle = '';
+        this.tooltip = {};
+        this.orientation = 'vertical';
+        this.plotBackgroundColor = '#F5E6E6';
+        this.legend = {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        };
+        this.yplotlines = [
+            {
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }
+        ];
+    },
+    drawChart: function () {
+        var options = {
+            chart: {
+                renderTo: this.$.container,
+                type: (this.orientation == 'horizontal') ? 'bar' : 'column',
+                plotBorderWidth: 2,
+                plotBackgroundColor: this.plotBackgroundColor,
+                plotBorderColor: '#D8D8D8',
+                plotShadow: true,
+                spacingBottom: 0,
+                width: (this.width) ? this.width : 70,
+                height: (this.height) ? this.height : 200,
+                backgroundColor: null
+            },
+            credits: {enabled: false},
+            exporting: {enabled: false},
+            title: {
+                text: this.charttitle,
+                x: -20
+            },
+            subtitle: {
+                text: this.subtitle,
+                x: -20
+            },
+
+            yAxis: {
+                title: {
+                    text: this.ytitle
+                },
+                plotLines: this.yplotlines,
+                labels: {
+                    y: 0
+                },
+                min: 0,
+                max: 100,
+                tickInterval: 20,
+                minorTickInterval: 10,
+                tickWidth: 1,
+                tickLength: 8,
+                minorTickLength: 5,
+                minorTickWidth: 1,
+                minorGridLineWidth: 1
+
+            },
+            legend: {enabled: false},
+            tooltip: this.tooltip,
+
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        symbol: 'line',
+                        lineWidth: 2,
+                        radius: 15,
+                        lineColor: 'red'
+                    }
+                }
+            },
+            series: this.series
+        };
+
+        options.xAxis = {
+            tickLength: 0,
+            lineColor: '#999',
+            labels: {
+                style: {
+                    fontWeight: 'bold'
+                }
+            },
+            lineWidth: 0,
+            categories: this.xcategories,
+            labels: (this.xcategories) ? {enabled: true} : {enabled: false}
+        };
+        options.colors = [this.barColor];
+        new Highcharts.Chart(options);
+    },
+
+    loadData: function () {
+        this.parseData(this.data);
+        this.drawChart();
+    },
+
+    parseData: function (data) {
+        if (typeof data == 'string' || data instanceof String) {
+            this.$.ajax.go();
+        }
+        else {
+            if (Array.isArray(data)) {
+                //this.series = data;
+                this.series[0].data=data[0].data
+            } else {
+                this.series = data.series || [];
+                this.xcategories = data.xcategories || [];
+            }
+        }
+    },
+
+    externalDataLoad: function (e, detail, sender) {
+        this.parseData(detail.response);
+        this.fire('chartDataLoaded', {data: this.series});
+        this.drawChart();
+    }
+
+});
+
+</script>
+
+</polymer-element>
