@@ -1,23 +1,31 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>highcharts-basicline Demo</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>highcharts-basicline Demo</title>
 
-  <script src="../platform/platform.js"></script>
-  <link rel="import" href="../polymer/polymer.html">
-  <link rel="import" href="highcharts-basicline.html">
-  <style>
-    body {
-      background-color: #eee;
-    }
-  </style>
+    <script src="../platform/platform.js"></script>
+    <link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="highcharts-basicline.html">
+    <link rel="import" href="highcharts-gauge.html">
 </head>
 <body unresolved>
+<p>An `highcharts-basicline` looks like this:</p>
 
-  <p>An `highcharts-basicline` looks like this:</p>
-
-  <highcharts-basicline style="width:50%"
+<highcharts-gauge width="70" height="200"
+                  charttitle=""
+                  subtitle=""
+                  xcategories=''
+                  barColor='blue'
+                  legend=false
+                  ytitle=''
+                  plotBackgroundColor='lightgreen'
+                  tooltip='{ "valueSuffix": "°C" }'
+                  data='[{ "data": [ 50.0] }]'
+                  orientation='vertical'>
+</highcharts-gauge>
+<p>------------------------------------------------------------------</p>
+   <highcharts-basicline style="width:50%"
                         charttitle="Monthly Average Temperature (from inline JSON)"
                         subtitle="Source: WorldClimate.com"
                         xcategories='[ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]'
@@ -35,13 +43,12 @@
                         data='test/temperatures.json'>
   </highcharts-basicline>
 
-  <highcharts-basicline style="width:50%"
+  <highcharts-basicline style="width:100%;height:50%"
                         charttitle="Monthly Average Temperature (With xcategories in data)"
                         subtitle="Source: WorldClimate.com"
                         ytitle='Temperature (°C)'
                         tooltip='{ "valueSuffix": "°C" }'
                         data='test/temperatures_with_xcategories.json'>
   </highcharts-basicline>
-
 </body>
 </html>

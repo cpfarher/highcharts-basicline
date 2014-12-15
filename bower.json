@@ -17,7 +17,8 @@
     "polymer": "Polymer/polymer#^0.4.2",
     "core-ajax": "Polymer/core-ajax#~0.4.2",
     "highcharts": "~4.0.4",
-    "platform": "polymer/platform#^0.4.2"
+    "platform": "polymer/platform#^0.4.2",
+    "jquery": "jquery#2.1.0"
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.2"
