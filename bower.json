@@ -1,6 +1,6 @@
 {
   "name": "highcharts-basicline",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     "CyberLight <cyberlight@live.ru>"
   ],
@@ -13,14 +13,14 @@
   "main": "polymer-highcharts-basicline.html",
   "license": "MIT",
   "dependencies": {
-    "core-component-page": "Polymer/core-component-page#^0.4.2",
-    "polymer": "Polymer/polymer#^0.4.2",
-    "core-ajax": "Polymer/core-ajax#~0.4.2",
+    "core-component-page": "Polymer/core-component-page#^0.5.2",
+    "polymer": "Polymer/polymer#^0.5.2",
+    "core-ajax": "Polymer/core-ajax#~0.5.2",
     "highcharts": "~4.0.4",
-    "platform": "polymer/platform#^0.4.2",
+    "platform": "polymer/platform#^0.5.2",
     "jquery": "jquery#2.1.0"
   },
   "devDependencies": {
-    "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.2"
+    "polymer-test-tools": "Polymer/polymer-test-tools#^0.5.2"
   }
 }
