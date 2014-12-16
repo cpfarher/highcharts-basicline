@@ -142,7 +142,8 @@ Polymer({
                 spacingBottom: 0,
                 width: (this.width) ? this.width : 70,
                 height: (this.height) ? this.height : 200,
-                backgroundColor: null
+                backgroundColor: null,
+                animation
             },
             credits: {enabled: false},
             exporting: {enabled: false},
@@ -178,6 +179,11 @@ Polymer({
             tooltip: this.tooltip,
 
             plotOptions: {
+                series: {
+                    animation: {
+                        enable: false
+                    }
+                },
                 scatter: {
                     marker: {
                         symbol: 'line',
