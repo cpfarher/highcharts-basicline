@@ -1,4 +1,4 @@
-Modified: add gauge vertical or horizontal:
+Modified: add gauge vertical or horizontal: see demo.html for use...
 
 
 highcharts-basicline polymer component
