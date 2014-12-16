@@ -1,3 +1,6 @@
+Modified: add gauge vertical or horizontal:
+
+
 highcharts-basicline polymer component
 ======================================
 
