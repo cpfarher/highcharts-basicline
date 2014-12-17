@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../core-ajax/core-ajax.html">
-<link rel="import" href="../highcharts-basicline/highcharts-js-import.html">
+
 
 <!--
 Element providing solution to no problem in particular.
@@ -15,7 +15,7 @@ Element providing solution to no problem in particular.
 @homepage http://polymerlabs.github.io/highcharts-gauge
 -->
 <polymer-element name="highcharts-gauge">
-
+<link rel="import" href="../highcharts-basicline/highcharts-js-import.html">
 <template>
     <link rel="stylesheet" href="highcharts-gauge.css"/>
     <div id="container" style="width:{{width}}; height:{{height}};"></div>
@@ -178,11 +178,6 @@ Polymer({
             tooltip: this.tooltip,
 
             plotOptions: {
-                series: {
-                    animation: {
-                        enable: false
-                    }
-                },
                 scatter: {
                     marker: {
                         symbol: 'line',
@@ -190,6 +185,9 @@ Polymer({
                         radius: 15,
                         lineColor: 'red'
                     }
+                },
+                series: {
+                    animation: false
                 }
             },
             series: this.series
